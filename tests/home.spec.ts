@@ -106,4 +106,25 @@ test.describe('Basic Test', () => {
 
         expect(await blogs.count()).toEqual(5)
     })
+
+    test('example of soft assertions', async ({ page }) => {
+        
+        await page.goto('https://practice.automationbro.com/blog/')
+
+        // get ul element on blog posts
+        const blogs = page.locator('#recent-posts-3 ul li')
+
+        // validate the length of characters eact post
+        for (const x of await blogs.allTextContents()) {
+            // if this does not met the condition, it will still continue to the other test.
+            expect.soft(x.trim().length).toBeGreaterThan(10)
+        }
+
+        // it will check how much error in soft assertions, if it's greater than 1, it will stop.
+        expect(test.info().errors.length).toBeLessThan(1)
+
+        expect(await blogs.count()).toEqual(5)
+    })
+
+
 })
